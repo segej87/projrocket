@@ -129,6 +129,21 @@ class ActionItem(Base):
     def __str__(self):
         return self.title
 
+    def get_completion_date(self):
+        if self.completion_date_actual:
+            return self.completion_date_actual
+        elif self.completion_date_proj:
+            return self.completion_date_proj
+
+    def get_completion_date_type(self):
+        if self.completion_date_actual:
+            return 'actual'
+        elif self.completion_date_proj:
+            return 'projected'
+    
+    completion_date = property(get_completion_date)
+    completion_date_type = property(get_completion_date_type)
+
 # Attachment model
 class FileUpload(Base):
     title = models.CharField('Title', max_length=100, blank=False, default=get_default_title('Attachment'))

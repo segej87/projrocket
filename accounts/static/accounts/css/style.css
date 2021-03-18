@@ -1,0 +1,14 @@
+.logo {
+  font-family: 'Arial';
+  clear:both;
+}
+
+.logo a {
+  color: #203354;
+  clear:both;
+}
+
+.logo a:hover,
+.logo a:active {
+  text-decoration: none;
+}

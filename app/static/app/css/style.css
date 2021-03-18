@@ -1,0 +1,66 @@
+body {
+  font-family:arial, sans-serif;
+}
+
+h1 .header-block {
+  color: #203354;
+  float: left;
+}
+
+.header-block {
+  clear: both;
+  width: 100%;
+}
+
+.my-3, .my-4 {
+  background-color: transparent;
+}
+
+.bg-dark {
+  background-color: #192841!important;
+}
+
+a {
+  color: #78A2CC;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td, th, p {
+  padding: 8px;
+  color: #3E424B
+}
+
+td.tablelink, th.tablelink {
+  text-align: left;
+}
+
+td.tableinfo, th.tableinfo {
+  text-align: center;
+}
+
+tr {
+  border-bottom: 1px solid #F5F5F5;
+}
+
+a.tablelink {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a.button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 10px;
+  margin: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.newbutton {
+  float: right;
+}

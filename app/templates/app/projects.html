@@ -1,22 +1,35 @@
-<h1>Upcoming Projects</h1>
-{% if upcoming_projects_list %}
-    <table style="width:100%">
-      <tr>
-        <th>Title</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Pending Action Items</th>
-        <th>Completed Action Items</th>
-      {% for project in upcoming_projects_list %}
-          <tr>
-            <td><a href="/app/projects/{{ project.id }}/">{{ project.title }}</a></td>
-            <td>{{ project.start_date }} ({{ project.start_date_type }})</td>
-            <td>{{ project.completion_date }} ({{ project.completion_date_type }})</td>
-            <td>{{ project.pending_tasks }}</td>
-            <td>{{ project.completed_tasks }}</td>
-          </tr>
-      {% endfor %}
-    </table>
-{% else %}
-    <p>No projects are available.</p>
-{% endif %}
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+  <div class="header-block"><h1 class="header-block">Projects</h1><a href="" class="button newbutton">+ Project</a></div>
+{% endblock %}
+
+{% block content %}
+  {% if upcoming_projects_list %}
+      <table>
+        <tr>
+          <th class="tablelink">Project</th>
+          <th class="tableinfo">Start Date</th>
+          <th class="tableinfo">End Date</th>
+          <th class="tableinfo">Open Action Items</th>
+          <th class="tableinfo">Completed Action Items</th>
+        {% for project in upcoming_projects_list %}
+            <tr>
+              <td class="tablelink"><a href="{% url 'app:project detail' project.id %}" class="tablelink">{{ project.title }}</a></td>
+              <td class="tableinfo">{{ project.start_date }} ({{ project.start_date_type }})</td>
+              <td class="tableinfo">{{ project.completion_date }} ({{ project.completion_date_type }})</td>
+              <td class="tableinfo">{{ project.pending_tasks }}</td>
+              <td class="tableinfo">{{ project.completed_tasks }}</td>
+            </tr>
+        {% endfor %}
+      </table>
+  {% else %}
+      <p>No projects yet!</p>
+  {% endif %}
+{% endblock %}

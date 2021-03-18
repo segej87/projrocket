@@ -1,6 +1,53 @@
-<h1>{{ project.title }}</h1>
-<ul>
-{% for action_item in action_items %}
-    <li><a href="{% url 'app:action item detail' action_item.id %}">{{ action_item.title }}</a></li>
-{% endfor %}
-</ul>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+  <div class="header-block"><h1>{{ project.title }}</h1><a href="" class="button newbutton">+ Action Item</a></div>
+{% endblock %}
+
+{% block content %}
+  {% if open_action_items_list %}
+      <table>
+        <tr>
+          <th class="tablelink">Open Action Item</th>
+          <th class="tableinfo">Story Points</th>
+          <th class="tableinfo">Status</th>
+          <th class="tableinfo">Completion Date</th>
+        {% for action_item in open_action_items_list %}
+            <tr>
+              <td class="tablelink"><a href="{% url 'app:action item detail' action_item.id %}" class="tablelink">{{ action_item.title }}</a></td>
+              <td class="tableinfo">{{ action_item.story_points }}</td>
+              <td class="tableinfo">{{ action_item.status }}</td>
+              <td class="tableinfo">{{ action_item.completion_date }}</td>
+            </tr>
+        {% endfor %}
+      </table>
+  {% else %}
+      <p>No open action items. Woohoo!</p>
+  {% endif %}
+  <br>
+  {% if completed_action_items_list %}
+    <table>
+      <tr>
+        <th class="tablelink">Completed Action Item</th>
+        <th class="tableinfo">Story Points</th>
+        <th class="tableinfo">Status</th>
+        <th class="tableinfo">Completion Date</th>
+      {% for action_item in completed_action_items_list %}
+          <tr>
+            <td class="tablelink"><a href="{% url 'app:action item detail' action_item.id %}" class="tablelink">{{ action_item.title }}</a></td>
+            <td class="tableinfo">{{ action_item.story_points }}</td>
+            <td class="tableinfo">{{ action_item.status }}</td>
+            <td class="tableinfo">{{ action_item.completion_date }}</td>
+          </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+      <p>No completed action items yet. You got this!</p>
+  {% endif %}
+{% endblock %}
