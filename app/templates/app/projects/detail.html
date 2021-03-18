@@ -1,0 +1,6 @@
+<h1>{{ project.title }}</h1>
+<ul>
+{% for action_item in action_items %}
+    <li><a href="{% url 'app:action item detail' action_item.id %}">{{ action_item.title }}</a></li>
+{% endfor %}
+</ul>

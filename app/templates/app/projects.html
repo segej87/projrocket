@@ -1,0 +1,22 @@
+<h1>Upcoming Projects</h1>
+{% if upcoming_projects_list %}
+    <table style="width:100%">
+      <tr>
+        <th>Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Pending Action Items</th>
+        <th>Completed Action Items</th>
+      {% for project in upcoming_projects_list %}
+          <tr>
+            <td><a href="/app/projects/{{ project.id }}/">{{ project.title }}</a></td>
+            <td>{{ project.start_date }} ({{ project.start_date_type }})</td>
+            <td>{{ project.completion_date }} ({{ project.completion_date_type }})</td>
+            <td>{{ project.pending_tasks }}</td>
+            <td>{{ project.completed_tasks }}</td>
+          </tr>
+      {% endfor %}
+    </table>
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
