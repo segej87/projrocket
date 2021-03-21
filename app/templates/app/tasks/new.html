@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+  {{ form.media }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Add Task</li>
+{% endblock %}
+
+{% block content %}
+  <h1>Add Task</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% include 'includes/form.html' %}
+
+    <button type="submit" class="btn btn-success">Link</button>
+  </form>
+{% endblock %}

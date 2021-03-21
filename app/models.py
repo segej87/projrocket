@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from djrichtextfield.models import RichTextField
+from datetime import datetime, date
 import uuid
 from . import vars
 
@@ -25,12 +26,13 @@ class Base(models.Model):
 class Person(Base):
     first_name = models.CharField('First Name', max_length=100)
     last_name = models.CharField('Last Name', max_length=100)
-    email = models.EmailField('Email')
-    phone = models.CharField('Phone Number', max_length=20)
+    email = models.EmailField('Email', blank=True, null=True)
+    phone = models.CharField('Phone Number', max_length=20, blank=True, null=True)
     birthday = models.DateField('Birthday', blank=True, null=True)
-    title = models.CharField('Title', max_length=50)
-    department = models.CharField('Department', max_length=100)
-    is_self = models.BooleanField('Self?', default=False, blank=False)
+    title = models.CharField('Title', max_length=50, blank=True, null=True)
+    department = models.CharField('Department', max_length=100, blank=True, null=True)
+    is_self = models.BooleanField('This is Me', default=False, blank=False)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='user_profile')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -38,7 +40,7 @@ class Person(Base):
 # Meeting model
 class Meeting(Base):
     title = models.CharField('Title', max_length=100, blank=False, default=get_default_title('Meeting'))
-    description = models.CharField('Description', max_length=255)
+    description = RichTextField('Description', max_length=255)
     start_time = models.DateTimeField('Start time', blank=False, null=True)
     end_time = models.DateTimeField('End time', blank=True, null=True)
     location = models.CharField('Location', max_length=100)
@@ -59,7 +61,7 @@ class Meeting(Base):
 # Note model
 class Note(Base):
     title = models.CharField('Title', max_length=100, blank=False, default=get_default_title('Note'))
-    text = models.TextField('Text')
+    text = RichTextField('Text')
 
     def __str__(self):
         return self.title
@@ -67,8 +69,8 @@ class Note(Base):
 # Project model
 class Project(Base):
     title = models.CharField('Title', max_length=100, blank=False, default=get_default_title('Project'))
-    description = models.TextField('Description')
-    impact = models.TextField('Impact')
+    description = RichTextField('Description')
+    impact = RichTextField('Impact')
     status = models.CharField('Status', max_length = 50, choices=vars.PROJECT_STATUS_CHOICES)
     start_date_proj = models.DateField('Projected Start Date', blank=True, null=True)
     start_date_actual = models.DateField('Actual Start Date', blank=True, null=True)
@@ -120,9 +122,9 @@ class Project(Base):
 # Action Item model
 class ActionItem(Base):
     title = models.CharField('Title', max_length=100, blank=False, default=get_default_title('Action Item'))
-    description = models.TextField('Description')
-    story_points = models.IntegerField()
-    status = models.CharField('Status', max_length=50, choices=vars.ACTION_ITEM_STATUS_CHOICES)
+    description = RichTextField('Description')
+    story_points = models.IntegerField(blank=True, null=True)
+    status = models.CharField('Status', max_length=50, choices=vars.ACTION_ITEM_STATUS_CHOICES, blank=True, null=True)
     completion_date_proj = models.DateField('Projected Completion Date', blank=True, null=True)
     completion_date_actual = models.DateField('Actual Completion Date', blank=True, null=True)
 
@@ -140,9 +142,32 @@ class ActionItem(Base):
             return 'actual'
         elif self.completion_date_proj:
             return 'projected'
-    
+
     completion_date = property(get_completion_date)
     completion_date_type = property(get_completion_date_type)
+
+    def get_days_to_completion(self):
+        return (self.completion_date - date.today()).days
+
+    days_to_completion = property(get_days_to_completion)
+
+    def get_state(self):
+        if self.days_to_completion > 0:
+            return 'ok'
+        elif self.days_to_completion == 0:
+            return 'soon'
+        else:
+            return 'overdue'
+
+    state = property(get_state)
+
+# Comment model
+class Comment(Base):
+    to_action_item = models.ForeignKey(ActionItem, on_delete=models.CASCADE, related_name='com_to_action_item', blank=False)
+    text = RichTextField('Text')
+
+    def __str__(self):
+        return f'{self.created_by}\'s {self.created_at} comment on {self.to_action_item}'
 
 # Attachment model
 class FileUpload(Base):

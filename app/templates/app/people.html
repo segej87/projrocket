@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'app:home' %}">ProjRocket</a></li>
+  <li class="breadcrumb-item active">People</li>
+{% endblock %}
+
+{% block content %}
+  <div class="header-block"><h1>People</h1><a href="{% url 'app:new person' %}" class="button newbutton">+ Person</a></div>
+  {% if people_list %}
+    <table>
+      <tr>
+        <th class="tablelink">Person</th>
+        <th class="tableinfo">Title</th>
+        <th class="tableinfo">Department</th>
+        <th class="tableinfo">Email</th>
+        <th class="tableinfo">Project Stakes</th>
+      {% for person in people_list %}
+          <tr>
+            <td class="tablelink"><a href="{% url 'app:person detail' person.id %}" class="tablelink">{{ person }}</a></td>
+            <td class="tableinfo">{{ person.title }}</td>
+            <td class="tableinfo">{{ person.department }}</td>
+            <td class="tableinfo">{{ person.email }}</td>
+            <td class="tableinfo">{{ person.stakes }}</td>
+          </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+      <p>No people yet!</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'app:home' %}">ProjRocket</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'app:people list' %}">People</a></li>
+  <li class="breadcrumb-item active">{{ person }}</li>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ person }}</h1>
+  <p>{{ person.title }}</p>
+{% endblock %}

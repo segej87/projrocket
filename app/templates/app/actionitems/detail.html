@@ -7,9 +7,49 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <div class="header-block"><h1>{{ action_item.title }}</h1></div>
+  <li class="breadcrumb-item"><a href="{% url 'app:home' %}">ProjRocket</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'app:action item list' %}">Action Items</a></li>
+  <li class="breadcrumb-item active">{{ action_item }}</li>
 {% endblock %}
 
 {% block content %}
-  <p>{{ action_item.status }}</p>
+  <h1>{{ action_item }}</h1>
+  <h2 class="action-item-status">{{ action_item.get_status_display }}</h2>
+  <div class="description-block">{{ action_item.description|safe }}</div>
+  <div class="header-block"><h2 class="header-block section-header">Comments</h2><a href="{% url 'app:new comment' action_item.id %}" class="button newbutton">+ Comment</a></div>
+  <div class="detail-table">
+    {% if comments %}
+      <table>
+        <tr>
+          <th class="tablelink"></th>
+          <th class="tableinfo">Posted By</th>
+          <th class="tableinfo">Posted on</th>
+        {% for comment in comments %}
+            <tr>
+              <td class="tableinfo">{{ comment.text|safe }}</td>
+              <td class="tableinfo">{{ comment.created_by }}</td>
+              <td class="tableinfo">{{ comment.created_at }}</td>
+            </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+  <div class="header-block"><h2 class="header-block section-header">Projects</h2><a href="" class="button newbutton">+ Project</a></div>
+  <div class="detail table">
+    {% if projects_list %}
+      <table>
+        <tr>
+          <th class="tablelink">Project</th>
+          <th class="tableinfo">Start Date</th>
+          <th class="tableinfo">End Date</th>
+        {% for project in projects_list %}
+            <tr>
+              <td class="tablelink"><a href="{% url 'app:project detail' project.id %}" class="tablelink">{{ project.title }}</a></td>
+              <td class="tableinfo">{{ project.start_date }} ({{ project.start_date_type }})</td>
+              <td class="tableinfo">{{ project.completion_date }} ({{ project.completion_date_type }})</td>
+            </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
 {% endblock %}

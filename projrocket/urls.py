@@ -20,4 +20,6 @@ urlpatterns = [
     path('app/', include('app.urls')),
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
+
+    path('djrichtextfield/', include('djrichtextfield.urls'))
 ]

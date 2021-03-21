@@ -2,14 +2,45 @@ body {
   font-family:arial, sans-serif;
 }
 
-h1 .header-block {
+h1 {
   color: #203354;
-  float: left;
 }
 
-.header-block {
+.header-block h1 {
+  color: #203354;
+  /* float: left; */
+}
+
+h2.action-item-status {
+  color: #203354;
+  font-size: 25px;
+}
+
+div.header-block {
   clear: both;
   width: 100%;
+  margin-top: 20px;
+}
+
+div.description-block {
+  width: 100%;
+  clear: both;
+}
+
+.description-block div {
+  clear:both;
+}
+
+div.detail-table {
+  overflow: auto;
+  max-height: 300px;
+  clear: both;
+  margin-top: 10px;
+}
+
+h2.section-header {
+  color: #F98125;
+  float: left;
 }
 
 .my-3, .my-4 {
@@ -53,8 +84,9 @@ a.tablelink {
 }
 
 a.button {
-  background-color: #f44336;
-  color: white;
+  background-color: transparent;
+  color: #f44336;
+  border-radius: 8px;
   padding: 10px 10px;
   margin: 5px 5px;
   text-align: center;
@@ -63,4 +95,47 @@ a.button {
 
 a.newbutton {
   float: right;
+  margin-right: 25px;
+}
+
+div.project-title {
+  float: left;
+}
+
+h1.project-title {
+  float: left;
+}
+
+div.project-header-chart {
+  float: right;
+  margin-left: 25px;
+}
+
+.project-header-chart div {
+  float: right;
+  margin-left: 25px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+div.project-title-block {
+  margin-bottom: 10px;
+}
+
+td.ok {
+  color: #2E8B57;
+  font-weight: bold;
+}
+
+td.soon {
+  color: #FF7F50;
+  font-weight: bold;
+}
+
+td.overdue {
+  color: #B22222;
+  font-weight: bold;
 }

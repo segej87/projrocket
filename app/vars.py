@@ -18,7 +18,8 @@ STAKEHOLDER_TYPE_CHOICES = (
     ('user', 'User'),
     ('governance', 'Governance'),
     ('influencer', 'Influencer'),
-    ('provider', 'Provider')
+    ('provider', 'Provider'),
+    ('participant', 'Participant')
 )
 
 DOCUMENT_TYPE_CHOICES = (

@@ -4,50 +4,89 @@
 
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+  <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"> -->
 {% endblock %}
 
 {% block breadcrumb %}
-  <div class="header-block"><h1>{{ project.title }}</h1><a href="" class="button newbutton">+ Action Item</a></div>
+  <li class="breadcrumb-item"><a href="{% url 'app:home' %}">ProjRocket</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'app:project list' %}">Projects</a></li>
+  <li class="breadcrumb-item active">{{ project }}</li>
 {% endblock %}
 
 {% block content %}
-  {% if open_action_items_list %}
+  <div class="center project-title-block">
+    <h1 class="project-title">{{ project.title }}</h1>
+    <div class='project-header-chart'>
+      {% autoescape off %}
+      {{ dtcs_div|safe }}
+      {% endautoescape %}
+      {% autoescape off %}
+      {{ plot_div|safe }}
+      {% endautoescape %}
+    </div>
+  </div>
+  <div class="description-block">
+    {{ project.description|safe }}
+  </div>
+  <div class="header-block"><h2 class="header-block section-header">Action Items</h2><a href="{% url 'app:new project task' project_id=project.id %}" class="button newbutton">Link Existing</a><a href="{% url 'app:new project action item' project.id %}" class="button newbutton">New Action Item</a></div>
+  <div class="detail-table">
+    {% if open_action_items_list %}
       <table>
         <tr>
-          <th class="tablelink">Open Action Item</th>
+          <th class="tablelink">Open Action Items</th>
           <th class="tableinfo">Story Points</th>
           <th class="tableinfo">Status</th>
           <th class="tableinfo">Completion Date</th>
+          <th class="tableinfo">Days Remaining</th>
         {% for action_item in open_action_items_list %}
             <tr>
               <td class="tablelink"><a href="{% url 'app:action item detail' action_item.id %}" class="tablelink">{{ action_item.title }}</a></td>
               <td class="tableinfo">{{ action_item.story_points }}</td>
-              <td class="tableinfo">{{ action_item.status }}</td>
+              <td class="tableinfo">{{ action_item.get_status_display }}</td>
               <td class="tableinfo">{{ action_item.completion_date }}</td>
+              <td class="tableinfo {{action_item.state}}">{{ action_item.days_to_completion }}</td>
             </tr>
         {% endfor %}
       </table>
-  {% else %}
-      <p>No open action items. Woohoo!</p>
-  {% endif %}
-  <br>
-  {% if completed_action_items_list %}
-    <table>
-      <tr>
-        <th class="tablelink">Completed Action Item</th>
-        <th class="tableinfo">Story Points</th>
-        <th class="tableinfo">Status</th>
-        <th class="tableinfo">Completion Date</th>
-      {% for action_item in completed_action_items_list %}
+    {% endif %}
+    <br>
+    {% if completed_action_items_list %}
+      <table>
+        <tr>
+          <th class="tablelink">Completed Action Items</th>
+          <th class="tableinfo">Story Points</th>
+          <th class="tableinfo">Status</th>
+          <th class="tableinfo">Completion Date</th>
+        </tr>
+        {% for action_item in completed_action_items_list %}
           <tr>
             <td class="tablelink"><a href="{% url 'app:action item detail' action_item.id %}" class="tablelink">{{ action_item.title }}</a></td>
             <td class="tableinfo">{{ action_item.story_points }}</td>
-            <td class="tableinfo">{{ action_item.status }}</td>
+            <td class="tableinfo">{{ action_item.get_status_display }}</td>
             <td class="tableinfo">{{ action_item.completion_date }}</td>
           </tr>
-      {% endfor %}
-    </table>
-  {% else %}
-      <p>No completed action items yet. You got this!</p>
-  {% endif %}
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+  <div class="header-block"><h2 class="header-block section-header">Stakeholders</h2><a href="{% url 'app:new project stakeholder' project.id %}" class="button newbutton">Link Existing</a><a href="{% url 'app:new project person' project.id %}" class="button newbutton">New Person</a></div>
+  <div class="detail-table">
+    {% if stakeholders %}
+      <table>
+        <tr>
+          <th class="tablelink">Name</th>
+          <th class="tableinfo">Title</th>
+          <th class="tableinfo">Contact</th>
+          <th class="tableinfo">Stake</th>
+        {% for stakeholder in stakeholders %}
+            <tr>
+              <td class="tablelink"><a href="{% url 'app:person detail' stakeholder.from_person.id %}" class="tablelink">{{ stakeholder.from_person }}</a></td> <!-- TODO: wire up to person page-->
+              <td class="tableinfo">{{ stakeholder.from_person.title }}</td>
+              <td class="tableinfo">{{ stakeholder.from_person.email }}</td>
+              <td class="tableinfo">{{ stakeholder.get_type_display }}</td>
+            </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
 {% endblock %}

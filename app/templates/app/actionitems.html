@@ -8,12 +8,12 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'app:home' %}">ProjRocket</a></li>
-  <li class="breadcrumb-item active">Projects</li>
+  <li class="breadcrumb-item active">Action Items</li>
 {% endblock %}
 
 {% block content %}
-  <div class="header-block"><h1>Projects</h1><a href="{% url 'app:new project' %}" class="button newbutton">+ Project</a></div>
-  {% if projects_list %}
+  <div class="header-block"><h1>Action Items</h1><a href="{% url 'app:new action item' %}" class="button newbutton">+ Action Item</a></div>
+  <!-- {% if projects_list %}
     <table>
       <tr>
         <th class="tablelink">Project</th>
@@ -33,5 +33,5 @@
     </table>
   {% else %}
       <p>No projects yet!</p>
-  {% endif %}
+  {% endif %} -->
 {% endblock %}

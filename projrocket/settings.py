@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
+    'pytz',
+
+    'djrichtextfield',
 
     'app',
     'accounts',
@@ -130,3 +133,14 @@ STATIC_URL = '/static/'
 
 LOGOUT_REDIRECT_URL = 'app:home'
 LOGIN_REDIRECT_URL = 'app:home'
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.tiny.cloud/1/soq97m4i1j9pae6bgnef84cxtpzweuyr1j4yea8hcsg35u7c/tinymce/5/tinymce.min.js'],
+    'init_template': 'djrichtextfield/init/tinymce.js',
+    'settings': {
+        'menubar': True,
+        'plugins': 'link image',
+        'toolbar': 'bold italic | link image | removeformat',
+        'width': 700
+    }
+}
